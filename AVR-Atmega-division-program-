@@ -1,0 +1,14 @@
+.def num=r16        ; numerator is define in register r16
+.def den=r17        ; denominator is define in r17
+.def quo=r18        ; quotient is define in r18
+
+ldi num,50          ; loading 50 to num
+ldi den,10          ; loading 10 to den
+clr quo             ; clear the value of quo
+
+L1: inc quo        ;quotient was subtracted for one more time than required...Hence we will add quotient once
+    sub num,den    ;numerator was incremented one time more thnan required
+    brcc L1        ;it will terminate the  loop is carry is set
+    dec quo        ;it will dec the quo
+    add num ,den   ; addition of no
+    end :jmp end
