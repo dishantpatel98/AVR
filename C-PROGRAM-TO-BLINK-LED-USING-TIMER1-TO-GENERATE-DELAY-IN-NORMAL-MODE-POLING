@@ -1,0 +1,28 @@
+#include <avr/io.h>
+
+int main(void)
+{
+	
+	DDRC=0xFF;
+	PORTC=0xFF;
+	TCCR1A=0x00;
+	TCCR1B=0x01;
+	TCNT1=0xffff;
+	
+	
+	
+	while (1)
+	{
+		
+		for (int i=500;i>0;i--)
+		{while((TIFR&(1<<TOV1))==0);
+		 TIFR=1<<TOV1;
+		 TCNT1=0x5490;	
+		}
+		PORTC=~PORTC;
+		
+	}
+	
+}
+
+
