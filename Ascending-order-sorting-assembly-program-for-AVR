@@ -1,0 +1,20 @@
+ldi r17,$09       ;counter 1 is used for counting the inner iteration 
+ldi r25,$09       ;counter2 is used to count the outer  iteration
+start:ldi zl,$00  ;load lsb with 00...Assuming that data is stored from the memory address 0x0100
+ldi zh,$01        ;load msb with 01
+back:ld r18,z     ;r18 is used with the value at z address
+inc zl            ;increment the address of lsb
+ld r19,z          ;now load the value stored in the memory address 0x0100
+cp r18,r19        ;compare the values of register r18 and r19
+brcs skip         ; branch if carry is set i.e if r18 is less than r19 then skip becuase that is the only thing we want so we wont swap  
+breq skip         ;branch if r18 and r19 has same value becuase we don't need to swap in that case too
+ld r20,z          ;temporary register used to swap the values between register and memory address
+st -z,r20         ; pre decrement z and store the value of temporary register
+inc zl            ;increment the value of zl
+st z,r18          ;st is used to store the value of r18 after swapping
+skip:dec r17      ;decrement the inner loop
+brne back         ;branch if not equal i.e if zero flag is not set
+dec r25           ;dec outer loop after every 9 iterration
+brne start        ;brne is used to go back start if r25 is not set to  zero
+end: jmp end      ;end is used to terminate the program
+   
