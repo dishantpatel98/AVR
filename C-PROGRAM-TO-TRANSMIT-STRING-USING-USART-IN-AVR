@@ -1,0 +1,30 @@
+#define F_CPU 16000000
+#include<avr/io.h>
+#define baudrate_1 9600UL
+#define baudrate_0 4800UL
+#define ubrrval_1 (((F_CPU)/(baudrate_1*16UL))-1)
+#define ubrrval_0 (((F_CPU)/(baudrate_0*16UL))-1)
+
+
+void usart_init(void){
+	UCSR1B=(1<<TXEN1);
+	UCSR1C=(1<<UCSZ1)|(1<<UCSZ0);
+	UBRR1H=ubrrval_1>>8;
+	UBRR1L=ubrrval_1;
+
+}
+void usart_send(unsigned  char arr[] ){
+	int i=0;
+	while(arr[i]!='\0'){
+		
+	while(!(UCSR1A & (1<<UDRE)));
+	UDR1=arr[i++];
+	}
+}
+int main(void){
+	usart_init();
+    char arr[]="Dishant patel";
+	usart_send(arr);
+
+
+}
